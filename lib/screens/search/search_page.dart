@@ -4,8 +4,10 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:products_app/screens/home/cubit/products_cubit.dart';
 import 'package:products_app/shared/components/components.dart';
+import 'package:products_app/shared/components/constants.dart';
 import 'package:products_app/shared/components/custom_widgits/custom_progress_Indicator.dart';
 import 'package:products_app/shared/components/custom_widgits/custom_text_field.dart';
+import 'package:products_app/shared/components/utils/functions.dart';
 
 class SearchPage extends StatelessWidget {
   const SearchPage({super.key});
@@ -27,7 +29,13 @@ class SearchPage extends StatelessWidget {
                 child: CustomTextField(
                   controller: cubit.controllSearch,
                   onFieldSubmitted: (value) {
-                    cubit.searchProducts(value);
+                    if (value.isNotEmpty) {
+                      cubit.searchProducts(value);
+                    } else {
+                      showToast(
+                          text: 'Type anything to search',
+                          state: ToastStates.WARNING);
+                    }
                   },
                   hintText: 'Search for products',
                   prefixIcon: Icon(Icons.search),

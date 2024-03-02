@@ -59,6 +59,7 @@ dependencies:
   #Design
   progress_dialog_null_safe: ^1.0.7
   fluttertoast: ^8.2.1
+  flutter_svg: ^1.1.6
 
 dev_dependencies:
   flutter_test:

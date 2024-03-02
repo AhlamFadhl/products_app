@@ -8,6 +8,7 @@ import 'package:products_app/screens/home/cubit/products_cubit.dart';
 import 'package:products_app/shared/components/components.dart';
 import 'package:products_app/shared/components/custom_widgits/custom_button_widget.dart';
 import 'package:products_app/shared/components/custom_widgits/custom_text_field.dart';
+import 'package:products_app/shared/components/utils/validation.dart';
 
 class ProductDetailsPage extends StatelessWidget {
   ProductModel product;
@@ -32,12 +33,17 @@ class ProductDetailsPage extends StatelessWidget {
             children: [
               buildProductCard(product),
               Divider(),
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: CustomTextField(
-                  controller: cubit.controllPrice,
-                  keyboardType: TextInputType.number,
-                  prefixIcon: Icon(Icons.monetization_on),
+              Form(
+                key: cubit.formKey,
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: CustomTextField(
+                    hintText: 'Price',
+                    controller: cubit.controllPrice,
+                    keyboardType: TextInputType.number,
+                    prefixIcon: Icon(Icons.monetization_on),
+                    validator: (value) => Validation.fieldValidate(value),
+                  ),
                 ),
               ),
               Padding(
@@ -45,8 +51,10 @@ class ProductDetailsPage extends StatelessWidget {
                 child: CustomButtonWidget(
                   title: 'Edit',
                   onTap: () async {
-                    cubit.editProductPrice(
-                        cubit.controllPrice.text, product.id);
+                    if (cubit.formKey.currentState!.validate()) {
+                      cubit.editProductPrice(
+                          cubit.controllPrice.text, product.id);
+                    }
                   },
                   loading: cubit.isEditLoading,
                 ),

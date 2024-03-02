@@ -83,6 +83,7 @@ class ProductsCubit extends Cubit<ProductsState> {
   }
 
   ///Edit
+  var formKey = GlobalKey<FormState>();
   bool isEditLoading = false;
   var controllPrice = TextEditingController();
   Future<ProductModel?> editProductPrice(price, id) async {
